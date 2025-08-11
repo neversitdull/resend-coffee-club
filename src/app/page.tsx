@@ -18,6 +18,10 @@ export default function Home() {
     if (!email) {
       return;
     }
+    resend.contacts.create({
+      email: email,
+      audienceId: "48429064-00a9-4600-98f3-d95e62933acb",
+    });
 
     const { data: welcomeData, error: welcomeError } = await resend.emails.send(
       {
@@ -52,12 +56,12 @@ export default function Home() {
           alt="Resend Coffee Club Coffee Bag"
           width={680}
           height={880}
-          className="object-contain opacity-30"
+          className="object-contain opacity-50"
           priority
         />
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center gap-6 text-center">
-        <div className="py-20 effect-font-gradient">
+        <div className="py-20">
           <CCLogo />
         </div>
         <h1 className="text-balance font-display text-7xl font-semibold opacity-90 effect-font-gradient">
