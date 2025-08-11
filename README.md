@@ -1,6 +1,6 @@
 ## Resend Coffee Club (DX Take‑Home)
 
-Next.js + Resend demo for the Resend DX Engineer Take‑Home Challenge. It:
+Next.js + Resend demo for the Resend DX Engineer Take‑Home Challenge. The demo:
 
 - Subscribes an email to a Resend Audience and sends a welcome email
 - Schedules a follow‑up email for delivery “in 1 min”
@@ -11,7 +11,7 @@ Challenge brief: [Resend DX Engineer Take‑Home Challenge](https://resend.notio
 
 ### Quick start
 
-1. Install deps
+1. Install dependencies
 
 ```bash
 pnpm install
@@ -32,32 +32,12 @@ pnpm dev
 
 Open `http://localhost:3000`.
 
-### Demo
-
-- Subscribe: visit `/`, enter your email, click Subscribe
-  - You’ll get a welcome email immediately, then one in ~1 minute
-- Webhook: send a test payload to Slack
-
-```bash
-curl -X POST http://localhost:3000/api/webhooks/subscribe \
-  -H "Content-Type: application/json" \
-  -d '{"event":"demo","message":"hello"}'
-```
-
-- Receipt: set your email in `src/app/api/send-receipt/route.ts`, then open `http://localhost:3000/api/send-receipt`
-
-### Key files
-
-- `src/app/page.tsx` — subscribe + send now + schedule later
-- `src/app/api/webhooks/subscribe/route.ts` — relay POST body to Slack
-- `src/app/api/send-receipt/route.ts` — send email with PDF, redirect to `/thanks`
-- `src/components/*template*.tsx` — simple email templates
-
 ### Notes
 
-- Replace the demo `from` and `audienceId` with your own (env‑driven in real apps)
+- Replace the demo `from` and `audienceId` with your own
 - Tech: Next.js 15, React 19, Tailwind 4, Resend Node SDK
-- Scripts: `pnpm dev`, `pnpm build`, `pnpm start`, `pnpm lint`, `pnpm format`
+
+## Demo
 
 ### Subscribe flow (home page `src/app/page.tsx`)
 
@@ -65,13 +45,7 @@ curl -X POST http://localhost:3000/api/webhooks/subscribe \
   - **Create a contact** in a Resend Audience (`audienceId` is hardcoded for the demo)
   - **Send a welcome email** immediately using `WelcomeEmailTemplate`
   - **Schedule a follow-up email** using `ScheduledEmailTemplate` with `scheduledAt: "in 1 min"`
-- Requires `RESEND_API_KEY` to be present in the environment.
-
-Key files:
-
-- `src/app/page.tsx`
-- `src/components/welcome-template.tsx`
-- `src/components/scheduled-template.tsx`
+- Requires `RESEND_API_KEY`
 
 What to customize:
 
@@ -98,11 +72,7 @@ Note that this is using a simple Slack Workflow. You can learn more on how to se
 - GET `/api/send-receipt` sends an email with a small PDF attachment and redirects to `/thanks`.
 - Update the hardcoded recipient before you test.
 
-Key files:
-
-- `src/app/api/send-receipt/route.ts`
-- `src/components/receipt-template.tsx`
-- Success page: `src/app/thanks/page.tsx`
+This demo uses a simple base64-encoded string as a placeholder for the PDF attachment. For production, you’d typically generate a proper PDF using a dedicated library.
 
 ## Environment variables
 
@@ -110,12 +80,6 @@ Provide these in `.env`:
 
 - **RESEND_API_KEY**: API key from Resend.
 - **SLACK_WEBHOOK_URL**: Slack Incoming Webhook URL used by the webhook relay.
-
-## Running the demo
-
-- **Subscribe flow**: visit `/`, enter your email, click Subscribe. You should receive a welcome email immediately and another in ~1 minute.
-- **Webhook relay**: use the curl command above and confirm the message appears in the configured Slack channel.
-- **Receipt email**: set your email in `src/app/api/send-receipt/route.ts`, then open `http://localhost:3000/api/send-receipt`.
 
 ## Configuration notes
 
