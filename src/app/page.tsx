@@ -23,28 +23,31 @@ export default function Home() {
       audienceId: "48429064-00a9-4600-98f3-d95e62933acb",
     });
 
-    const { data: welcomeData, error: welcomeError } = await resend.emails.send(
-      {
+    const [welcomeData, scheduledData] = await Promise.all([
+      resend.emails.send({
         from: "Josh from CC <hi@mail.resend.coffee>",
         to: [email],
         subject: "Welcome to the Resend Coffee Club",
         react: WelcomeEmailTemplate(),
-      }
-    );
-
-    const { data: scheduledData, error: scheduledError } =
-      await resend.emails.send({
+      }),
+      resend.emails.send({
         from: "Josh from CC <hi@mail.resend.coffee>",
         to: [email],
         subject: "Your first coffee is on its way!",
         react: ScheduledEmailTemplate(),
         scheduledAt: "in 1 min",
+      }),
+    ]);
+    if (welcomeData.error || scheduledData.error) {
+      console.error("Email errors:", {
+        welcomeError: welcomeData.error,
+        scheduledError: scheduledData.error,
       });
-
-    if (welcomeError || scheduledError) {
-      console.error("Email errors:", { welcomeError, scheduledError });
     } else {
-      console.log("Emails sent:", { welcomeData, scheduledData });
+      console.log("Emails sent:", {
+        welcomeData: welcomeData.data,
+        scheduledData: scheduledData.data,
+      });
     }
   }
 
