@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-playfair-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -119,4 +120,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.effect-font-gradient {
+  -webkit-text-fill-color: transparent;
+  color: unset;
+  background: linear-gradient(to bottom right, #fff 30%, #ffffff80);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
