@@ -1,5 +1,3 @@
-import { CCLogo } from "@/components/ui/cc-logo";
-import { Logo } from "@/components/ui/logo";
 import Image from "next/image";
 
 export default function Thanks() {
