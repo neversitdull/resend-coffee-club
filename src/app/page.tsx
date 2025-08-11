@@ -45,47 +45,41 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen items-center px-20">
-      {/* Left Column - Content */}
-      <div className="flex flex-1 flex-col items-start justify-between h-full gap-6 pr-10 py-20">
-        <div className="effect-font-gradient mb-10">
-          <CCLogo />
-        </div>
-        <div className="flex flex-col gap-6 py-10">
-          <h1 className="text-balance text-left font-sans text-6xl font-semibold opacity-90 effect-font-gradient">
-            Resend Coffee Club
-          </h1>
-          <p className="max-w-prose text-balance text-left text-lg text-white opacity-70">
-            Specialty coffee, hand-selected by the Resend team. Delivered
-            straight to your inbox every Wednesday.
-          </p>
-          <form className="flex gap-4 w-md mt-4" action={subscribe}>
-            <Input
-              placeholder="Email"
-              name="email"
-              className="h-12 rounded-xl text-white border border-white/10 backdrop-blur-[25px] bg-gradient-to-r from-white/5 to-white/10 focus-visible:ring-1 focus-visible:ring-white/20"
-            />
-            <Button className="h-12 px-5 rounded-2xl text-white font-semibold border border-white/10 backdrop-blur-[25px] bg-gradient-to-r from-white/5 to-white/10 hover:bg-white/90 hover:text-black focus-visible:ring-1 focus-visible:ring-white/30 focus-visible:bg-white/90 focus-visible:text-black transition-all duration-200 disabled:opacity-30">
-              Subscribe
-            </Button>
-          </form>
-        </div>
-        <div>
-          <Logo className="text-white opacity-50 mt-auto" />
-        </div>
-      </div>
-
-      {/* Right Column - Coffee Bag Image */}
-      <div className="flex flex-1 items-center justify-center">
+    <div className="relative flex h-screen flex-col items-center justify-around gap-4 px-10">
+      <div className="absolute inset-0 flex items-center justify-center">
         <Image
           src="/coffee-bag.png"
           alt="Resend Coffee Club Coffee Bag"
-          width={400}
-          height={600}
+          width={680}
+          height={880}
           className="object-contain opacity-30"
           priority
         />
       </div>
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6 text-center">
+        <div className="py-20 effect-font-gradient">
+          <CCLogo />
+        </div>
+        <h1 className="text-balance font-display text-7xl font-semibold opacity-90 effect-font-gradient">
+          Resend Coffee Club
+        </h1>
+        <p className="max-w-prose text-balance text-lg text-white opacity-70">
+          Specialty coffee, hand-selected by the Resend team. Delivered straight
+          to your inbox every Wednesday.
+        </p>
+        <form className="mt-8 flex flex-col gap-4 w-sm" action={subscribe}>
+          <Input
+            placeholder="Email"
+            name="email"
+            className="h-12 rounded-xl text-white border border-white/10 backdrop-blur-[25px] bg-gradient-to-r from-white/5 to-white/10 focus-visible:ring-1 focus-visible:ring-white/20"
+          />
+          <Button className="h-12 px-5 rounded-2xl text-white font-semibold border border-white/10 backdrop-blur-[25px] bg-gradient-to-r from-white/5 to-white/10 hover:bg-white/90 hover:text-black focus-visible:ring-1 focus-visible:ring-white/30 focus-visible:bg-white/90 focus-visible:text-black transition-all duration-200 disabled:opacity-30">
+            Subscribe
+          </Button>
+        </form>
+      </div>
+
+      <Logo className="relative z-10 text-white opacity-80" />
     </div>
   );
 }
