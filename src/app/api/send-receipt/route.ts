@@ -6,7 +6,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendReceiptEmail() {
   const email = "neversitdull@gmail.com";
-  const pdfBuffer = Buffer.from("This is your coffee receipt!", "utf-8");
 
   return resend.emails.send({
     from: "Josh from CC <hi@mail.resend.coffee>",
@@ -15,8 +14,8 @@ async function sendReceiptEmail() {
     react: ReceiptEmailTemplate(),
     attachments: [
       {
+        path: "https://jqdnns81kv8dbrzq.public.blob.vercel-storage.com/receipt.pdf",
         filename: "receipt.pdf",
-        content: pdfBuffer.toString("base64"),
       },
     ],
   });
