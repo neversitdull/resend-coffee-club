@@ -1,15 +1,15 @@
-## Resend Coffee Club (DX Take‑Home)
+# Resend Coffee Club
 
-Next.js + Resend demo for the Resend DX Engineer Take‑Home Challenge. The demo:
+Demo for the [Resend DX Engineer Take‑Home Challenge](https://resend.notion.site/DX-Engineer-Take-Home-Challenge-107c40d6c4ef80d9beacde49b2f9c9b4).
 
-- Subscribes an email to a Resend Audience and sends a welcome email
-- Schedules a follow‑up email for delivery “in 1 min”
-- Sends a sample receipt email with a PDF attachment
-- Implements a webhook to send sign-ups to Slack
+Features:
 
-Challenge brief: [Resend DX Engineer Take‑Home Challenge](https://resend.notion.site/DX-Engineer-Take-Home-Challenge-107c40d6c4ef80d9beacde49b2f9c9b4)
+- Subscribe users to Resend Audience + send welcome email
+- Schedule follow-up email delivery
+- Forward webhooks to Slack
+- Send receipt email with PDF attachment
 
-### Quick start
+## Setup
 
 1. Install dependencies
 
@@ -21,72 +21,46 @@ pnpm install
 
 ```bash
 RESEND_API_KEY=your_resend_api_key
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX
+SLACK_WEBHOOK_URL=your_slack_webhook_url
 ```
 
-3. Run dev server
+3. Start dev server
 
 ```bash
 pnpm dev
 ```
 
-Open `http://localhost:3000`.
+Visit `http://localhost:3000`
 
-### Notes
+## Usage
 
-- Replace the demo `from` and `audienceId` with your own
-- Tech: Next.js 15, React 19, Tailwind 4, Resend Node SDK
+### Subscribe Flow
 
-## Demo
+Visit the homepage, enter an email, and click Subscribe. You'll receive:
 
-### Subscribe flow (home page `src/app/page.tsx`)
+- Welcome email immediately
+- Follow-up email in 1 minute
 
-- A server action handles the form submit, using the Resend SDK to:
-  - **Create a contact** in a Resend Audience (`audienceId` is hardcoded for the demo)
-  - **Send a welcome email** immediately using `WelcomeEmailTemplate`
-  - **Schedule a follow-up email** using `ScheduledEmailTemplate` with `scheduledAt: "in 1 min"`
-- Requires `RESEND_API_KEY`
-
-What to customize:
-
-- Replace the `from` address (`"Josh from CC <hi@mail.resend.coffee>"`) with a sender that works for your Resend account (verified domain or allowed address).
-- Replace the demo `audienceId` with your own Audience ID from Resend.
-
-### Webhook relay to Slack (`src/app/api/webhooks/subscribe/route.ts`)
-
-- Accepts a POST with any JSON payload and forwards it to the Slack Incoming Webhook URL in `SLACK_WEBHOOK_URL`.
-- Useful for quickly seeing webhook payloads in Slack.
-
-Test with curl:
+### Webhook Testing
 
 ```bash
 curl -X POST http://localhost:3000/api/webhooks/subscribe \
   -H "Content-Type: application/json" \
-  -d '{"event":"test","data":{"hello":"world"}}'
+  -d '{"event":"test","message":"hello"}'
 ```
 
-Note that this is using a simple Slack Workflow. You can learn more on how to set this up via thier [site/docs](https://slack.com/features/workflow-automation)
+### Receipt Email
 
-### Sample receipt with PDF attachment (`src/app/api/send-receipt/route.ts`)
+Update the recipient in `src/app/api/send-receipt/route.ts`, then visit:
+`http://localhost:3000/api/send-receipt`
 
-- GET `/api/send-receipt` sends an email with a small PDF attachment and redirects to `/thanks`.
-- Update the hardcoded recipient before you test.
+## Configuration
 
-This demo uses a simple base64-encoded string as a placeholder for the PDF attachment. For production, you’d typically generate a proper PDF using a dedicated library.
+Update these values in the code:
 
-## Environment variables
+- `from` address: Replace `"Josh from CC <hi@mail.resend.coffee>"` with your verified sender
+- `audienceId`: Replace with your Resend Audience ID
 
-Provide these in `.env`:
+## Tech Stack
 
-- **RESEND_API_KEY**: API key from Resend.
-- **SLACK_WEBHOOK_URL**: Slack Incoming Webhook URL used by the webhook relay.
-
-## Configuration notes
-
-- **Sender (from)**: Use a verified domain or an allowed Resend-provided address.
-- **Audience ID**: Replace the demo value with your own from the Resend dashboard.
-- **Scheduling**: `scheduledAt` accepts natural language (e.g., `"in 1 min"`) or an ISO timestamp.
-
-## Notes
-
-- This repository is demo-focused; it purposely keeps the email templates simple. You can swap them for `react-email`-rendered components if desired.
+Next.js 15, React 19, Tailwind CSS, Resend SDK
